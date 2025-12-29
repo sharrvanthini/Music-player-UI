@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Aesthetic Music Player</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: linear-gradient(135deg,#ff9a9e,#fad0c4,#a18cd1);
+}
+
+/* Player Card */
+.player{
+  width:340px;
+  padding:25px;
+  border-radius:25px;
+  text-align:center;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-10px); }
+}
+
+/* Album Image */
+.player img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  border-radius:20px;
+  margin-bottom:15px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+}
+
+/* Song Title */
+h3{
+  font-size:22px;
+  font-weight:600;
+  color:#2b2b2b;
+}
+
+/* Subtitle */
+p{
+  font-size:14px;
+  color:#444;
+  margin-bottom:20px;
+}
+
+/* Controls */
+.controls{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:25px;
+}
+
+button{
+  border:none;
+  background:none;
+  font-size:28px;
+  cursor:pointer;
+  color:#333;
+  transition:0.3s;
+}
+
+button:hover{
+  transform:scale(1.2);
+  color:#ff4e8a;
+}
+
+/* Play Button */
+.play{
+  width:65px;
+  height:65px;
+  border-radius:50%;
+  background: linear-gradient(135deg,#ff4e8a,#ff9a9e);
+  color:white;
+  font-size:30px;
+  box-shadow: 0 10px 25px rgba(255,78,138,0.6);
+}
+
+.play:hover{
+  box-shadow: 0 15px 35px rgba(255,78,138,0.9);
+}
+</style>
+</head>
+
+<body>
+
+<div class="player">
+  <!-- CHANGE IMAGE HERE -->
+  <img src="flower3.jpg" alt="Album Art">
+
+  <h3 id="title">Valithunaiyae</h3>
+  <p>Tamil Song 🎶</p>
+
+  <audio id="audio"></audio>
+
+  <div class="controls">
+    <button onclick="prevSong()">⏮</button>
+    <button class="play" onclick="playPause()" id="playBtn">▶</button>
+    <button onclick="nextSong()">⏭</button>
+  </div>
+</div>
+
+<script>
+const songs = [
+  { name: "Paavai", file: "paavai.mp3" },
+  { name: "Valithunaiyae", file: "valithunaiyae.mp3" },
+  { name: "Thangapoovaey", file: "thangapoovaey.mp3" }
+];
+
+let currentSong = 1;
+let isPlaying = false;
+
+const audio = document.getElementById("audio");
+const title = document.getElementById("title");
+const playBtn = document.getElementById("playBtn");
+
+function loadSong(index){
+  title.textContent = songs[index].name;
+  audio.src = songs[index].file;
+}
+
+function playPause(){
+  if(!isPlaying){
+    audio.play();
+    playBtn.textContent = "⏸";
+    isPlaying = true;
+  }else{
+    audio.pause();
+    playBtn.textContent = "▶";
+    isPlaying = false;
+  }
+}
+
+function nextSong(){
+  currentSong = (currentSong + 1) % songs.length;
+  loadSong(currentSong);
+  audio.play();
+  playBtn.textContent = "⏸";
+  isPlaying = true;
+}
+
+function prevSong(){
+  currentSong = (currentSong - 1 + songs.length) % songs.length;
+  loadSong(currentSong);
+  audio.play();
+  playBtn.textContent = "⏸";
+  isPlaying = true;
+}
+
+loadSong(currentSong);
+</script>
+
+</body>
+</html>
